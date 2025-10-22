@@ -217,6 +217,7 @@
 
     fn main() {
         tauri::Builder::default()
+            .plugin(tauri_plugin_opener::init())
             .manage(AppState { db: Mutex::new(None) })
             .setup(|app| {
                 let handle = app.handle();
@@ -241,4 +242,3 @@
             .run(tauri::generate_context!())
             .expect("error while running tauri application");
     }
-    
