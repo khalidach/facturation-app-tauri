@@ -39,7 +39,7 @@ export default function FactureForm({
 
   useEffect(() => {
     if (existingFacture) {
-      setType(existingFacture.type); // 'type' is a reserved keyword in Rust
+      setType(existingFacture.type); // FIX: Changed from r#type to type
       setClientName(existingFacture.client_name);
       setClientAddress(existingFacture.client_address || "");
       setClientICE(existingFacture.client_ice || "");
@@ -136,7 +136,7 @@ export default function FactureForm({
       client_ice: clientICE,
       date: dateForBackend,
       items: finalItems,
-      type: type_Facture, // Use r#type for rust
+      type: type, // FIX: Changed type_Facture to type
       show_margin: showMargin,
       prix_total_hors_frais: calculatedTotals.prixTotalHorsFrais,
       total_frais_service_ht: calculatedTotals.totalFraisServiceHT,

@@ -1,6 +1,6 @@
 use rusqlite::{Connection, Result};
-use std::path::PathBuf;
 use std::fs;
+use std::path::PathBuf;
 
 /// Get path to database
 pub fn get_db_path() -> PathBuf {
@@ -55,7 +55,7 @@ pub fn init_db(db_path: &PathBuf) -> Result<Connection> {
             id INTEGER PRIMARY KEY DEFAULT 1,
             styles TEXT
         );
-        "
+        ",
     )?;
 
     Ok(conn)
