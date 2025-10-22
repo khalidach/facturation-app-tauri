@@ -220,10 +220,10 @@
             .plugin(tauri_plugin_opener::init())
             .manage(AppState { db: Mutex::new(None) })
             .setup(|app| {
-                let handle = app.handle();
+                let _handle = app.handle();
                 let app_state = app.state::<AppState>();
                 
-                let db_path = db::get_db_path(&handle);
+                let db_path = db::get_db_path(); // no AppHandle needed
                 let conn = db::init_db(&db_path).expect("Database initialization failed");
                 *app_state.db.lock().unwrap() = Some(conn);
 
