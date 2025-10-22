@@ -136,7 +136,7 @@ export default function FactureForm({
       client_ice: clientICE,
       date: dateForBackend,
       items: finalItems,
-      type: type, // Use r#type for rust
+      type: type_Facture, // Use r#type for rust
       show_margin: showMargin,
       prix_total_hors_frais: calculatedTotals.prixTotalHorsFrais,
       total_frais_service_ht: calculatedTotals.totalFraisServiceHT,

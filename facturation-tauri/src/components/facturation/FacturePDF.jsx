@@ -1,7 +1,7 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { numberToWordsFr } from "@/services/numberToWords.js";
-import { invoke } from "@tauri-apps/api";
+import { invoke } from "@tauri-apps/api/core";
 
 const api = {
   getSettings: () => invoke("get_settings"),
@@ -36,7 +36,6 @@ export default function FacturePDF({ facture, themeStyles }) {
   const totalInWords = numberToWordsFr(facture.total);
   const showMargin = facture.showMargin ?? true;
 
-  // Use facture.items directly if it's already an array from Rust
   const parsedItems = Array.isArray(facture.items)
     ? facture.items
     : typeof facture.items === "string"
@@ -73,7 +72,7 @@ export default function FacturePDF({ facture, themeStyles }) {
                 />
               )}
               <h1 style={getStyle(styles, "header.agencyName")}>
-                {settings?.agency_name || "Your Agency"}
+                {settings?.agencyName || "Your Agency"}
               </h1>
             </div>
             <div className="flex flex-col items-end justify-center flex-1 text-right">
@@ -81,13 +80,13 @@ export default function FacturePDF({ facture, themeStyles }) {
                 className="uppercase"
                 style={getStyle(styles, "header.factureType")}
               >
-                {facture.type || facture.type}
+                {facture.type}
               </h2>
               <p
                 className="mt-1"
                 style={getStyle(styles, "header.factureNumber")}
               >
-                N°: {facture.facture_number}
+                N°: {facture.factureNumber}
               </p>
               <p style={getStyle(styles, "header.date")}>
                 Date: {new Date(facture.date).toLocaleDateString("en-GB")}
@@ -105,17 +104,17 @@ export default function FacturePDF({ facture, themeStyles }) {
           className="body-container"
           style={getStyle(styles, "body.container")}
         >
-          {(facture.clientName || facture.client_name) && (
+          {facture.clientName && (
             <div style={getStyle(styles, "body.clientInfo.container")}>
               <p style={getStyle(styles, "body.clientInfo.clientName")}>
-                {facture.clientName || facture.client_name}
+                {facture.clientName}
               </p>
               <p style={getStyle(styles, "body.clientInfo.clientAddress")}>
-                {facture.clientAddress || facture.client_address}
+                {facture.clientAddress}
               </p>
-              {(facture.clientICE || facture.client_ice) && (
+              {facture.clientICE && (
                 <p style={getStyle(styles, "body.clientInfo.clientICE")}>
-                  ICE: {facture.clientICE || facture.client_ice}
+                  ICE: {facture.clientICE}
                 </p>
               )}
             </div>
@@ -277,10 +276,7 @@ export default function FacturePDF({ facture, themeStyles }) {
             )}
             <div style={getStyle(styles, "body.totals.totalRow")}>
               <span style={getStyle(styles, "body.totals.label")}>
-                Total{" "}
-                {(facture.type || facture.type) === "devis"
-                  ? "Devis"
-                  : "Facture"}
+                Total {facture.type === "devis" ? "Devis" : "Facture"}
               </span>
               <span style={getStyle(styles, "body.totals.value")}>
                 {Number(facture.total).toLocaleString(undefined, {
@@ -307,9 +303,7 @@ export default function FacturePDF({ facture, themeStyles }) {
       >
         <div className="flex gap-2 justify-center flex-wrap">
           {[
-            `Sté. ${settings?.agency_name || ""} ${
-              settings?.type_societe || ""
-            }`,
+            `Sté. ${settings?.agencyName || ""} ${settings?.typeSociete || ""}`,
             settings?.capital && `Capital: ${settings.capital} Dhs`,
             settings?.address && `Siège Social: ${settings.address}`,
             settings?.phone && `Fix: ${settings.phone}`,
@@ -319,9 +313,9 @@ export default function FacturePDF({ facture, themeStyles }) {
             settings?.rc && `RC: ${settings.rc}`,
             settings?.patente && `Patente: ${settings.patente}`,
             settings?.cnss && `CNSS: ${settings.cnss}`,
-            settings?.bank_name &&
+            settings?.bankName &&
               settings?.rib &&
-              `Bank ${settings.bank_name}: ${settings.rib}`,
+              `Bank ${settings.bankName}: ${settings.rib}`,
           ]
             .filter(Boolean)
             .map((item, idx) => (

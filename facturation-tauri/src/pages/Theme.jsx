@@ -4,7 +4,7 @@ import { toast } from "react-hot-toast";
 import { Save, Palette } from "lucide-react";
 import FacturePDF from "@/components/facturation/FacturePDF.jsx";
 import ThemeEditor from "@/components/theme/ThemeEditor.jsx";
-import { invoke } from "@tauri-apps/api";
+import { invoke } from "@tauri-apps/api/core";
 
 const api = {
   getTheme: () => invoke("get_theme"),

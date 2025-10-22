@@ -9,7 +9,7 @@ import { toast } from "react-hot-toast";
 import { jsPDF } from "jspdf";
 import html2canvas from "html2canvas";
 import PaginationControls from "@/components/PaginationControls.jsx";
-import { invoke } from "@tauri-apps/api";
+import { invoke } from "@tauri-apps/api/core";
 
 const api = {
   getFactures: (page = 1, limit = 10, search = "", sortBy = "newest") => {
