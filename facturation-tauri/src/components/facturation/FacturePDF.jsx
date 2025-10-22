@@ -1,7 +1,7 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { numberToWordsFr } from "@/services/numberToWords.js";
-import { invoke } from "@tauri-apps/api/tauri";
+import { invoke } from "@tauri-apps/api";
 
 const api = {
   getSettings: () => invoke("get_settings"),
